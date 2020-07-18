@@ -19,7 +19,7 @@ pipeline {
             }
         }
         stage('build') {
-        agent { label 'master' }
+        agent { docker { image 'docker:stable' } }
             steps {
                 script {
                   dockerImage = docker.build registry + ":$BUILD_NUMBER"
