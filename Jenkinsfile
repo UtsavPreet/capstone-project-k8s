@@ -14,7 +14,7 @@ pipeline {
             }
         }
         stage('build') {
-        agent { docker { image 'docker:latest' } }
+        agent { docker { image 'docker:stable' } }
             steps {
                 sh 'docker login -u utsavpreet27 -p something'
                 sh 'docker build -t fast_api_k8s'
