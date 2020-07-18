@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+    registry = "utsavpreet27/fast_api_k8s"
+    registryCredential = credentials('dockerhub')
+    dockerImage = ''
+    }
     agent { docker { image 'python:3.7-slim' } }
     stages {
         stage('lint') {
@@ -14,13 +19,26 @@ pipeline {
             }
         }
         stage('build') {
-        agent { docker { image 'docker:stable' } }
+        agent any
             steps {
-                sh 'docker login -u utsavpreet27 -p something'
-                sh 'docker build -t fast_api_k8s'
-                sh 'docker tag fast_api_k8s utsavpreet27/fast_api_k8s'
-                sh 'docker push utsavpreet27/fast_api_k8s'
+                script {
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
+        stage('Deploy Image') {
+          steps{
+            script {
+              docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+              }
+            }
+        }
+        stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+    }
     }
 }
