@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('lint') {
             steps {
-                sh 'pip install requirements.txt --quiet'
+                sh 'pip install -r requirements.txt --quiet'
                 sh 'black main.py'
                 sh 'flake8 main.py'
             }
