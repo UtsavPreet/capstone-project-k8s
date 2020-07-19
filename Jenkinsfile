@@ -1,9 +1,9 @@
-@Library('github.com/releaseworks/jenkinslib') _
 pipeline {
     environment {
     registry = "utsavpreet27/fast_api_k8s"
     registryCredential = 'dockerhub'
     dockerImage = ''
+    aws_cred = 'aws-key'
     }
     agent { docker { image 'python:3.7-slim' } }
     stages {
@@ -45,9 +45,9 @@ pipeline {
     stage('deploy') {
       agent { docker { image 'bearengineer/awscli-kubectl'}}
             steps{
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-key', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        AWS("--region=us-east-1 eks --region us-east-1 update-kubeconfig --name capstone-udacity")
-    }
+            sh "echo $aws_cred"
+            sh "aws s3 ls"
+            sh "aws eks --region us-east-1 update-kubeconfig --name capstone-udacity"
         sh "kubectl set image deployment/my-app-1  my-app-1=utsavpreet27/fast_api_k8s:$BUILD_NUMBER"
       }
     }
