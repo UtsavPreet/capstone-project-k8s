@@ -16,7 +16,6 @@ pipeline {
         stage('lint_docker') {
         agent { docker { image 'hadolint/hadolint' } }
             steps {
-                sh 'python --version'
                 sh 'hadolint Dockerfile'
             }
         }
