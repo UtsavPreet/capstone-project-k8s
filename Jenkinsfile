@@ -41,6 +41,11 @@ pipeline {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
-
+    stage('deploy') {
+      agent { docker { image 'bitnami/kubectl'}}
+            steps{
+        sh "kubectl set image deployment/my-app-1  my-app=utsavpreet27/fast_api_k8s:$BUILD_NUMBER"
+      }
+    }
     }
 }
