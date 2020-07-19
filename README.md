@@ -12,3 +12,4 @@ This project deploys a FASTAPI based project on AWS EKS Cluster. The project is 
 Project is Live at: http://capstone-project.utsav.io/ 
 http://capstone-project.utsav.io/docs for API docs
 
+Github URL: https://github.com/UtsavPreet/capstone-project-k8s 
