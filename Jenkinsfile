@@ -45,7 +45,8 @@ pipeline {
       agent { docker { image 'bearengineer/awscli-kubectl'}}
             steps{
             sh "aws --version"
-        sh "kubectl set image deployment/my-app-1  my-app=utsavpreet27/fast_api_k8s:$BUILD_NUMBER"
+            sh "kubectl get pods"
+        sh "kubectl set image deployment/my-app-1  my-app-1=utsavpreet27/fast_api_k8s:$BUILD_NUMBER"
       }
     }
     }
