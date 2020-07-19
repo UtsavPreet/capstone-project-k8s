@@ -49,7 +49,8 @@ pipeline {
             sh "aws configure set aws_access_key_id $AWS_CRED_USR"
             sh "aws configure set aws_secret_access_key $AWS_CRED_PSW"
             sh "aws configure set default.region us-east-1"
-        sh("kubectl --kubeconfig $MY_KUBECONFIG set image deployment/my-app-1  my-app-1=utsavpreet27/fast_api_k8s:$BUILD_NUMBER")
+        sh("kubectl --kubeconfig $MY_KUBECONFIG set image pod/my-app-1  my-app-1=utsavpreet27/fast_api_k8s:$BUILD_NUMBER")
+        sh("kubectl --kubeconfig $MY_KUBECONFIG describe pod my-app-1")
       }
     }
     }
