@@ -1,7 +1,7 @@
 pipeline {
     environment {
     registry = "utsavpreet27/fast_api_k8s"
-    registryCredential = credentials('dockerhub')
+    registryCredential = 'dockerhub'
     dockerImage = ''
     }
     agent { docker { image 'python:3.7-slim' } }
@@ -33,11 +33,11 @@ pipeline {
               }
             }
         }
-        }
         stage('remove_image') {
             steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
+    }
     }
     }
 }
