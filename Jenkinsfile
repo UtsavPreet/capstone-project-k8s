@@ -45,7 +45,7 @@ pipeline {
     stage('deploy') {
       agent { docker { image 'bearengineer/awscli-kubectl'}}
             steps{
-            sh "echo $aws_cred"
+            sh "echo ${aws_cred}"
             sh "aws s3 ls"
             sh "aws eks --region us-east-1 update-kubeconfig --name capstone-udacity"
         sh "kubectl set image deployment/my-app-1  my-app-1=utsavpreet27/fast_api_k8s:$BUILD_NUMBER"
