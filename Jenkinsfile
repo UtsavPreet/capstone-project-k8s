@@ -13,9 +13,11 @@ pipeline {
                 sh 'flake8 main.py'
             }
         }
-        stage('test') {
+        stage('lint_docker') {
+        agent { docker { image 'hadolint/hadolint' } }
             steps {
                 sh 'python --version'
+                sh 'hadolint Dockerfile'
             }
         }
         stage('build') {
@@ -30,6 +32,7 @@ pipeline {
             script {
               docker.withRegistry( '', registryCredential ) {
                 dockerImage.push()
+                dockerImage.push('latest')
               }
             }
         }
@@ -39,6 +42,6 @@ pipeline {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
-    
+
     }
 }
